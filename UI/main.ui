@@ -14,7 +14,7 @@
    <string>Hierarchic</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(0, 85, 127)</string>
+   <string notr="true">background-color: rgb(63, 63, 63);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTreeWidget" name="ierarchic">

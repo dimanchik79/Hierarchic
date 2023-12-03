@@ -14,7 +14,7 @@
    <string>ВЫБОР БИБЛИОТЕКИ</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(0, 85, 127)</string>
+   <string notr="true">background-color: rgb(63, 63, 63);</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -35,7 +35,7 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="Label">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -56,7 +56,7 @@
 border-top-left-radius: 10%;
 border-top-right-radius: 10%;
 background-color: rgb(170, 170, 127);
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255)</string>
    </property>
    <property name="text">
     <string>НАИМЕНОВАНИЕ БИБЛИОТЕКИ</string>
@@ -65,7 +65,7 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QListWidget" name="listWidget">
+  <widget class="QListWidget" name="bibliolist">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -80,7 +80,7 @@ border-bottom-right-radius: 1em 10%;
 background-color: rgb(255, 254, 229);</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="b1">
+  <widget class="QPushButton" name="add">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -109,7 +109,7 @@ background-color: rgb(255, 254, 229);</string>
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="b1_2">
+  <widget class="QPushButton" name="erase">
    <property name="geometry">
     <rect>
      <x>60</x>
@@ -135,7 +135,7 @@ background-color: rgb(255, 254, 229);</string>
     </size>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="findtext">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -149,7 +149,7 @@ background-color: rgb(255, 254, 229);</string>
 </string>
    </property>
   </widget>
-  <widget class="QPushButton" name="b1_3">
+  <widget class="QPushButton" name="find">
    <property name="geometry">
     <rect>
      <x>450</x>

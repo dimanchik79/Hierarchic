@@ -11,11 +11,16 @@ class BaseModel(Model):
         database = DB
 
 
+class Bibliophile(BaseModel):
+    bibl_name = CharField(max_length=1024, null=True)
+
+
 class Hierarchic(BaseModel):
-    items = TextField(null=True)
+    bibl_id = IntegerField()
+    items = CharField(max_length=1024, null=True)
 
 
 class Data(BaseModel):
-    unic = CharField(max_length=1024, null=True)
+    unique = CharField(max_length=1024, null=True)
     field_name = CharField(max_length=1024, null=True)
     field_data = CharField(max_length=1024, null=True)

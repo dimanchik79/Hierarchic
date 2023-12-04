@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1222</width>
-    <height>879</height>
+    <height>877</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Hierarchic</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(63, 63, 63);</string>
+   <string notr="true">background-color: rgb(91, 91, 91)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTreeWidget" name="ierarchic">
@@ -228,7 +228,7 @@ background-color: rgb(255, 254, 229)</string>
    <widget class="QPushButton" name="b_find">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>381</x>
       <y>790</y>
       <width>31</width>
       <height>31</height>
@@ -255,7 +255,7 @@ background-color: rgb(255, 254, 229)</string>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>790</y>
+      <y>789</y>
       <width>371</width>
       <height>31</height>
      </rect>

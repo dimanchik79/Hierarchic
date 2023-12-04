@@ -77,7 +77,7 @@ background-color: rgb(255, 254, 229)</string>
     </property>
    </item>
   </widget>
-  <widget class="QRadioButton" name="r_b1">
+  <widget class="QRadioButton" name="r_b2">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -93,7 +93,7 @@ background-color: rgb(255, 254, 229)</string>
     <string>всё маленькими буквами</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="r_b2">
+  <widget class="QRadioButton" name="r_b1">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -147,31 +147,12 @@ QRadioButton::indicator {
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QCheckBox" name="closent">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>191</y>
-     <width>221</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>Не закрывать после нажатия ОК</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
  </widget>
  <tabstops>
   <tabstop>cb</tabstop>
   <tabstop>name</tabstop>
-  <tabstop>r_b2</tabstop>
   <tabstop>r_b1</tabstop>
+  <tabstop>r_b2</tabstop>
   <tabstop>r_b3</tabstop>
  </tabstops>
  <resources/>

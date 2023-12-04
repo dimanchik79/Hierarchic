@@ -6,16 +6,21 @@ from models import Hierarchic, Data, Bibliophile
 class MainClass(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
+        self.biblioteka = ""
         uic.loadUi("UI/main.ui", self)
         self.setFixedSize(1222, 879)
+
         self.b_open.clicked.connect(self.open_bibliophile)
 
-    @staticmethod
-    def open_bibliophile():
+    def open_bibliophile(self):
         dialog = OpenBibliothec()
         dialog.show()
         dialog.exec_()
-        print(dialog.result())
+        if dialog.result() == 1:
+            if self.biblioteka == dialog.bibliolist.currentItem().text():
+                return
+            self.biblioteka = dialog.bibliolist.currentItem().text()
+            self.bib_name.setText(self.biblioteka)
 
 
 class OpenBibliothec(QDialog):
@@ -27,12 +32,15 @@ class OpenBibliothec(QDialog):
         self.setFixedSize(493, 616)
         self.add.clicked.connect(self.change_biblio)
         self.sort.clicked.connect(self.change_sort)
-        self.set_position()
+        self.set_position(0)
 
-    def set_position(self):
+    def set_position(self, pos):
         self.update_bibliolist()
-        if self.biblio:
+        if self.biblio and pos == 0:
             self.bibliolist.setCurrentRow(0)
+            self.bibliolist.setFocus()
+        elif self.biblio and pos == 1:
+            self.bibliolist.setCurrentRow(self.bibliolist.count() - 1)
             self.bibliolist.setFocus()
 
     def change_biblio(self):
@@ -44,7 +52,8 @@ class OpenBibliothec(QDialog):
             dialog.show()
             dialog.exec_()
             if dialog.result() == 0:
-                break
+                self.bibliolist.setFocus()
+                return
             if dialog.cb.currentText() == "Добавить библиотеку":
                 row = [row.bibl_name for row in Bibliophile.select().where(Bibliophile.bibl_name == dialog.name.text())]
                 if row:
@@ -52,12 +61,7 @@ class OpenBibliothec(QDialog):
                     continue
                 dialog.name.setStyleSheet("background-color: rgb(63, 63, 63); color: rgb(255, 255, 255);")
                 Bibliophile.create(bibl_name=dialog.name.text())
-                self.update_bibliolist()
-                self.bibliolist.setCurrentRow(self.bibliolist.count() - 1)
-                self.bibliolist.setFocus()
-
-                # TODO
-
+                self.set_position(1)
             elif dialog.cb.currentText() == "Переименовать библиотеку":
                 # TODO
                 pass
@@ -65,15 +69,13 @@ class OpenBibliothec(QDialog):
     def change_sort(self):
         if self.sorted == 0:
             self.sort.setIcon(QtGui.QIcon("IMG/az.ico"))
-        elif self.sorted == 1:
+        if self.sorted == 1:
             self.sort.setIcon(QtGui.QIcon("IMG/za.ico"))
-        elif self.sorted == 2:
-            self.sort.setIcon(QtGui.QIcon("IMG/sort.ico"))
         if self.sorted == 2:
-            self.sorted = 0
-        else:
-            self.sorted += 1
-        self.set_position()
+            self.sort.setIcon(QtGui.QIcon("IMG/sort.ico"))
+            self.sorted = -1
+        self.sorted += 1
+        self.set_position(0)
 
     def update_bibliolist(self):
         self.bibliolist.clear()
@@ -113,11 +115,11 @@ class OpenInstrumentary(QDialog):
 
     def change_char(self, mark):
         if mark == 1:
-            self.name.setText(f"{self.name.text().upper()}")
+            self.name.setText(self.name.text().upper())
         elif mark == 2:
-            self.name.setText(f"{self.name.text().lower()}")
+            self.name.setText(self.name.text().lower())
         elif mark == 3:
-            self.name.setText(f"{self.name.text().capitalize()}")
+            self.name.setText(self.name.text().capitalize())
         self.name.setFocus()
 
     def change_mode(self):

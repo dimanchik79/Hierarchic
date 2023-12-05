@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>РАБОТА С РАЗДЕЛАМИ</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../IMG/icon.ico</normaloff>../IMG/icon.ico</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(63, 63, 63);</string>
   </property>
@@ -61,21 +65,6 @@
     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(255, 254, 229)</string>
    </property>
-   <item>
-    <property name="text">
-     <string>Новый раздел</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Новый подраздел</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Переименовать</string>
-    </property>
-   </item>
   </widget>
   <widget class="QRadioButton" name="r_b2">
    <property name="geometry">

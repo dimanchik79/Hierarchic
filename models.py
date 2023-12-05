@@ -21,6 +21,7 @@ class Hierarchic(BaseModel):
 
 
 class Data(BaseModel):
-    unique = CharField(max_length=1024, null=True)
+    bibl_name = CharField(max_length=1024, null=True)
+    item = CharField(max_length=1024, null=True)
     field_name = CharField(max_length=1024, null=True)
     field_data = CharField(max_length=1024, null=True)

@@ -21,7 +21,7 @@
    <string notr="true">background-color: rgb(91, 91, 91)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeWidget" name="ierarchic">
+   <widget class="QTreeWidget" name="hierarchic">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -90,6 +90,12 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">border: 1px solid rgb(0, 0, 0);
 border-top-left-radius: 10%;
@@ -114,6 +120,12 @@ color: rgb(255, 255, 255);</string>
       <width>793</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">border: 1px solid rgb(0, 0, 0);
@@ -161,7 +173,18 @@ background-color: rgb(255, 254, 229)</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Работа с разделами:&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; добавить, переименовать&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(223, 223, 223);</string>
+     <string notr="true">QPushButton::hover {
+background-color: rgb(255, 255, 255);
+}
+
+
+QPushButton {
+background-color: rgb(223, 223, 223);
+border: 1px solid rgb(85, 0, 0);
+border-radius: 5%;
+color: rgb(255, 0, 0)
+}
+</string>
     </property>
     <property name="text">
      <string/>
@@ -190,7 +213,18 @@ background-color: rgb(255, 254, 229)</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Удалить&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; раздел&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(223, 223, 223);</string>
+     <string notr="true">QPushButton::hover {
+background-color: rgb(255, 255, 255);
+}
+
+
+QPushButton {
+background-color: rgb(223, 223, 223);
+border: 1px solid rgb(85, 0, 0);
+border-radius: 5%;
+color: rgb(255, 0, 0)
+}
+</string>
     </property>
     <property name="text">
      <string/>
@@ -219,7 +253,20 @@ background-color: rgb(255, 254, 229)</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Открыть &lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;библиотеку&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(223, 223, 223);</string>
+     <string notr="true">
+
+QPushButton::hover {
+background-color: rgb(255, 255, 255);
+}
+
+
+QPushButton {
+background-color: rgb(223, 223, 223);
+border: 1px solid rgb(85, 0, 0);
+border-radius: 5%;
+color: rgb(255, 0, 0)
+}
+</string>
     </property>
     <property name="text">
      <string/>
@@ -239,13 +286,24 @@ background-color: rgb(255, 254, 229)</string>
     <property name="geometry">
      <rect>
       <x>381</x>
-      <y>790</y>
+      <y>789</y>
       <width>31</width>
       <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(223, 223, 223);</string>
+     <string notr="true">QPushButton::hover {
+background-color: rgb(255, 255, 255);
+}
+
+
+QPushButton {
+background-color: rgb(223, 223, 223);
+border: 1px solid rgb(85, 0, 0);
+border-radius: 5%;
+color: rgb(255, 0, 0)
+}
+</string>
     </property>
     <property name="text">
      <string/>
@@ -278,7 +336,7 @@ background-color: rgb(255, 254, 229)</string>
  </widget>
  <tabstops>
   <tabstop>table</tabstop>
-  <tabstop>ierarchic</tabstop>
+  <tabstop>hierarchic</tabstop>
   <tabstop>b_open</tabstop>
   <tabstop>b_add</tabstop>
   <tabstop>b_delete</tabstop>

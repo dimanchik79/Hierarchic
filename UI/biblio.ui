@@ -97,7 +97,18 @@ background-color: rgb(255, 254, 229);</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Библиотека:&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; добавить/переименовать&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(223, 223, 223);</string>
+    <string notr="true">QPushButton::hover {
+background-color: rgb(255, 255, 255);
+}
+
+
+QPushButton {
+background-color: rgb(223, 223, 223);
+border: 1px solid rgb(85, 0, 0);
+border-radius: 5%;
+color: rgb(255, 0, 0)
+}
+</string>
    </property>
    <property name="text">
     <string/>
@@ -126,7 +137,18 @@ background-color: rgb(255, 254, 229);</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Библиотека:&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; удалить&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(223, 223, 223);</string>
+    <string notr="true">QPushButton::hover {
+background-color: rgb(255, 255, 255);
+}
+
+
+QPushButton {
+background-color: rgb(223, 223, 223);
+border: 1px solid rgb(85, 0, 0);
+border-radius: 5%;
+color: rgb(255, 0, 0)
+}
+</string>
    </property>
    <property name="text">
     <string/>
@@ -166,7 +188,18 @@ background-color: rgb(255, 254, 229);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(223, 223, 223);</string>
+    <string notr="true">QPushButton::hover {
+background-color: rgb(255, 255, 255);
+}
+
+
+QPushButton {
+background-color: rgb(223, 223, 223);
+border: 1px solid rgb(85, 0, 0);
+border-radius: 5%;
+color: rgb(255, 0, 0)
+}
+</string>
    </property>
    <property name="text">
     <string/>
@@ -195,7 +228,18 @@ background-color: rgb(255, 254, 229);</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Библиотека:&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; сортировка&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(223, 223, 223);</string>
+    <string notr="true">QPushButton::hover {
+background-color: rgb(255, 255, 255);
+}
+
+
+QPushButton {
+background-color: rgb(223, 223, 223);
+border: 1px solid rgb(85, 0, 0);
+border-radius: 5%;
+color: rgb(255, 0, 0)
+}
+</string>
    </property>
    <property name="text">
     <string/>

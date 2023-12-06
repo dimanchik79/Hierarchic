@@ -2,7 +2,7 @@ import sys
 from os import path
 from PyQt5.QtWidgets import QApplication
 from classes import MainClass
-from models import Hierarchic, Data, Bibliophile
+from models import Hierarchic, Data, Bibliophile, Current
 
 
 def main():
@@ -17,4 +17,5 @@ if __name__ == "__main__":
         Hierarchic.create_table()
         Data.create_table()
         Bibliophile.create_table()
+        Current.create_table()
     main()

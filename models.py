@@ -25,3 +25,7 @@ class Data(BaseModel):
     item = CharField(max_length=1024, null=True)
     field_name = CharField(max_length=1024, null=True)
     field_data = CharField(max_length=1024, null=True)
+
+
+class Current(BaseModel):
+    bibl_name = CharField(max_length=1024, null=True)

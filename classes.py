@@ -1,15 +1,34 @@
 from PyQt5 import uic, QtGui
-from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox, QListWidget, QCheckBox, QRadioButton
-from models import Hierarchic, Data, Bibliophile
+from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox, QTreeWidget, QTreeWidgetItem, QAbstractItemView
+from models import Hierarchic, Data, Bibliophile, Current
 
 
 class MainClass(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
+        self.hierarchic = QTreeWidget()
         self.biblioteka = ""
+        self.base = {1: 'CATALOG>BOOKS>Book #1|Book #2|Comics>Authors>Years*',
+                     2: 'FUCK OFF>Fucker Mother*'}
+        (self.id, self.items, self.root) = [[], [], []]
+
         uic.loadUi("UI/main.ui", self)
         self.setFixedSize(1222, 879)
         self.b_open.clicked.connect(self.open_bibliophile)
+        self.b_add.clicked.connect(self.change_treeview)
+
+        self.open_current_bibl()
+
+    def save_current_bibl(self):
+        Current.delete().execute()
+        Current.create(bibl_name=self.biblioteka)
+
+    def open_current_bibl(self):
+        current = [row for row in Current.select().where(Current.id == 1)]
+        if not current:
+            return
+        self.bib_name.setText(current[0].bibl_name)
+        self.create_tree_from_bibl()
 
     def open_bibliophile(self):
         dialog = OpenBibliothec()
@@ -19,7 +38,63 @@ class MainClass(QMainWindow):
             if self.biblioteka == dialog.bibliolist.currentItem().text():
                 return
             self.biblioteka = dialog.bibliolist.currentItem().text()
+            self.save_current_bibl()
             self.bib_name.setText(self.biblioteka)
+
+    def change_treeview(self):
+        if self.bib_name.text() == "":
+            dialog = OpenError(error_msg="Откройте имеющуюся библиотеку\nили создайте новую")
+            dialog.show()
+            dialog.exec_()
+            return
+        dialog = OpenInstrumentary(mark="tree",
+                                   current_item="" if not self.base else "bzbz")
+        dialog.cb.clear()
+        if not self.base:
+            dialog.cb.addItems(["Добавить раздел"])
+        else:
+            dialog.cb.addItems(["Добавить раздел", "Добавить подраздел", "Переименовать текущий элемент"])
+        while True:
+            dialog.name.setFocus()
+            dialog.show()
+            dialog.exec_()
+            if dialog.result() == 0:
+                self.hierarchic.setFocus()
+                return
+
+    def create_tree_from_bibl(self):
+        count = 0
+
+        for key, word in self.base.items():
+            self.id.append(key)
+            self.items.append(word)
+
+        while count < len(self.id):
+            item = ""
+            self.root.clear()
+            column = 0
+            start = self.items[count].find(">", 1)
+            head = self.items[count][0:start]
+
+            self.hierarchic.setSelectionMode(QAbstractItemView.SingleSelection)
+            self.root.append(QTreeWidgetItem(self.hierarchic, [head]))
+
+            for position in range(start + 1, len(self.items[count])):
+                if self.items[count][position] == ">":
+                    self.root.append(QTreeWidgetItem(self.root[column], [item]))
+                    column += 1
+                    item = ""
+                    continue
+                if self.items[count][position] == "|":
+                    QTreeWidgetItem(self.root[column], [item])
+                    item = ""
+                    continue
+                if self.items[count][position] == "*":
+                    QTreeWidgetItem(self.root[column], [item])
+                    break
+                else:
+                    item += self.items[count][position]
+            count += 1
 
 
 class OpenBibliothec(QDialog):
@@ -142,3 +217,12 @@ class OpenInstrumentary(QDialog):
         if self.cb.currentText() == "Переименовать библиотеку":
             self.name.setText(self.current_item)
         self.name.setFocus()
+
+
+class OpenError(QDialog):
+    def __init__(self, error_msg) -> None:
+        super().__init__()
+        uic.loadUi("UI/error.ui", self)
+        print("bzbz")
+        self.setFixedSize(400, 150)
+        self.msg.setText(error_msg)

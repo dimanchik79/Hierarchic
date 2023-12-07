@@ -21,73 +21,13 @@
    <string notr="true">background-color: rgb(91, 91, 91)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeWidget" name="hierarchic">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>48</y>
-      <width>401</width>
-      <height>741</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 254, 229)</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::AdjustToContents</enum>
-    </property>
-    <property name="tabKeyNavigation">
-     <bool>true</bool>
-    </property>
-    <property name="showDropIndicator" stdset="0">
-     <bool>true</bool>
-    </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
-    </property>
-    <property name="dragDropOverwriteMode">
-     <bool>false</bool>
-    </property>
-    <property name="textElideMode">
-     <enum>Qt::ElideLeft</enum>
-    </property>
-    <property name="uniformRowHeights">
-     <bool>false</bool>
-    </property>
-    <property name="animated">
-     <bool>true</bool>
-    </property>
-    <property name="allColumnsShowFocus">
-     <bool>false</bool>
-    </property>
-    <property name="headerHidden">
-     <bool>true</bool>
-    </property>
-    <attribute name="headerVisible">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="headerCascadingSectionResizes">
-     <bool>true</bool>
-    </attribute>
-    <column>
-     <property name="text">
-      <string notr="true">1</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QLabel" name="bib_name">
     <property name="geometry">
      <rect>
       <x>9</x>
-      <y>6</y>
+      <y>26</y>
       <width>403</width>
-      <height>41</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -98,7 +38,6 @@
     </property>
     <property name="styleSheet">
      <string notr="true">border: 1px solid rgb(0, 0, 0);
-border-top-left-radius: 10%;
 background-color: rgb(170, 170, 127);
 color: rgb(255, 255, 255);</string>
     </property>
@@ -115,10 +54,10 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLabel" name="path">
     <property name="geometry">
      <rect>
-      <x>419</x>
-      <y>6</y>
+      <x>418</x>
+      <y>26</y>
       <width>793</width>
-      <height>41</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -129,7 +68,6 @@ color: rgb(255, 255, 255);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">border: 1px solid rgb(0, 0, 0);
-border-top-right-radius: 10%;
 background-color: rgb(170, 170, 127);
 color: rgb(255, 255, 255);</string>
     </property>
@@ -146,7 +84,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QTableWidget" name="table">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>419</x>
       <y>48</y>
       <width>791</width>
       <height>771</height>
@@ -332,11 +270,88 @@ color: rgb(255, 0, 0)
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
    </widget>
+   <widget class="QTreeView" name="hierarchic">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>47</y>
+      <width>401</width>
+      <height>743</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 254, 229)</string>
+    </property>
+    <attribute name="headerVisible">
+     <bool>false</bool>
+    </attribute>
+   </widget>
+   <widget class="QLabel" name="bib_name_2">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>6</y>
+      <width>403</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 1px solid rgb(0, 0, 0);
+border-top-left-radius: 10%;
+background-color: rgb(170, 170, 127);
+color: rgb(0, 0, 0)</string>
+    </property>
+    <property name="text">
+     <string>БИБЛИОТЕКА</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="path_2">
+    <property name="geometry">
+     <rect>
+      <x>418</x>
+      <y>6</y>
+      <width>793</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 1px solid rgb(0, 0, 0);
+border-top-right-radius: 10%;
+background-color: rgb(170, 170, 127);
+color: rgb(0, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>КОНСТРУКТОР ДАННЫХ</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
  </widget>
  <tabstops>
   <tabstop>table</tabstop>
-  <tabstop>hierarchic</tabstop>
   <tabstop>b_open</tabstop>
   <tabstop>b_add</tabstop>
   <tabstop>b_delete</tabstop>

@@ -1,22 +1,24 @@
-from PyQt5 import uic, QtGui
-from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox, QTreeWidget, QTreeWidgetItem, QAbstractItemView
+from PyQt5 import uic, QtGui, QtWidgets
+from PyQt5.QtGui import QStandardItemModel
+from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox, QTreeWidget
 from models import Hierarchic, Data, Bibliophile, Current
+
+import json
 
 
 class MainClass(QMainWindow):
-    def __init__(self) -> None:
-        super().__init__()
-        self.hierarchic = QTreeWidget()
+    def __init__(self, parent=None) -> None:
+        super(MainClass, self).__init__(parent)
+        self.hierarchic = QtWidgets.QTreeView()
         self.biblioteka = ""
-        self.base = {1: 'CATALOG>BOOKS>Book #1|Book #2|Comics>Authors>Years*',
-                     2: 'FUCK OFF>Fucker Mother*'}
+        self.base = {}
+
         (self.id, self.items, self.root) = [[], [], []]
 
         uic.loadUi("UI/main.ui", self)
         self.setFixedSize(1222, 879)
         self.b_open.clicked.connect(self.open_bibliophile)
         self.b_add.clicked.connect(self.change_treeview)
-
         self.open_current_bibl()
 
     def save_current_bibl(self):
@@ -27,8 +29,9 @@ class MainClass(QMainWindow):
         current = [row for row in Current.select().where(Current.id == 1)]
         if not current:
             return
-        self.bib_name.setText(current[0].bibl_name)
-        self.create_tree_from_bibl()
+        self.biblioteka = current[0].bibl_name
+        self.bib_name.setText(f"{self.biblioteka}")
+        self.opening_bibliothec()
 
     def open_bibliophile(self):
         dialog = OpenBibliothec()
@@ -39,7 +42,29 @@ class MainClass(QMainWindow):
                 return
             self.biblioteka = dialog.bibliolist.currentItem().text()
             self.save_current_bibl()
-            self.bib_name.setText(self.biblioteka)
+            self.bib_name.setText(f"{self.biblioteka}")
+            self.opening_bibliothec()
+
+    def opening_bibliothec(self):
+        self.hierarchic.setModel(None)
+        rows = [row for row in Hierarchic.select().where(Hierarchic.bibl_name == self.biblioteka)]
+        if not rows:
+            return
+        self.base = json.loads(rows[0].items)
+        model = QStandardItemModel()
+        self.hierarchic.setModel(model)
+        self.create_tree_from_bibl(self.base, model.invisibleRootItem())
+        self.hierarchic.expandAll()
+        self.hierarchic.selectionModel().selectionChanged.connect(self.show_path)
+
+    def show_path(self):
+        for selector in self.hierarchic.selectedIndexes():
+            value = selector.data()
+            print(value)
+            while selector.parent().isValid():
+                selector = selector.parent()
+                value = selector.data() + "/" + value
+            self.path.setText(f"{value}")
 
     def change_treeview(self):
         if self.bib_name.text() == "":
@@ -62,39 +87,12 @@ class MainClass(QMainWindow):
                 self.hierarchic.setFocus()
                 return
 
-    def create_tree_from_bibl(self):
-        count = 0
-
-        for key, word in self.base.items():
-            self.id.append(key)
-            self.items.append(word)
-
-        while count < len(self.id):
-            item = ""
-            self.root.clear()
-            column = 0
-            start = self.items[count].find(">", 1)
-            head = self.items[count][0:start]
-
-            self.hierarchic.setSelectionMode(QAbstractItemView.SingleSelection)
-            self.root.append(QTreeWidgetItem(self.hierarchic, [head]))
-
-            for position in range(start + 1, len(self.items[count])):
-                if self.items[count][position] == ">":
-                    self.root.append(QTreeWidgetItem(self.root[column], [item]))
-                    column += 1
-                    item = ""
-                    continue
-                if self.items[count][position] == "|":
-                    QTreeWidgetItem(self.root[column], [item])
-                    item = ""
-                    continue
-                if self.items[count][position] == "*":
-                    QTreeWidgetItem(self.root[column], [item])
-                    break
-                else:
-                    item += self.items[count][position]
-            count += 1
+    def create_tree_from_bibl(self, children, parent):
+        for child in children:
+            child_item = QtGui.QStandardItem(child)
+            parent.appendRow(child_item)
+            if isinstance(children, dict):
+                self.create_tree_from_bibl(children[child], child_item)
 
 
 class OpenBibliothec(QDialog):

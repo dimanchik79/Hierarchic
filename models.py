@@ -16,13 +16,13 @@ class Bibliophile(BaseModel):
 
 
 class Hierarchic(BaseModel):
-    bibl_id = IntegerField()
-    items = CharField(max_length=1024, null=True)
+    bibl_name = CharField(max_length=1024, null=True)
+    items = TextField(null=True)
 
 
 class Data(BaseModel):
     bibl_name = CharField(max_length=1024, null=True)
-    item = CharField(max_length=1024, null=True)
+    item_name = CharField(max_length=1024, null=True)
     field_name = CharField(max_length=1024, null=True)
     field_data = CharField(max_length=1024, null=True)
 

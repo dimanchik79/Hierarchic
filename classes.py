@@ -60,7 +60,6 @@ class MainClass(QMainWindow):
     def show_path(self):
         for selector in self.hierarchic.selectedIndexes():
             value = selector.data()
-            print(value)
             while selector.parent().isValid():
                 selector = selector.parent()
                 value = selector.data() + "/" + value

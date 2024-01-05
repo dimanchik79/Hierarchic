@@ -108,7 +108,7 @@ background-color: rgb(255, 254, 229)</string>
      </rect>
     </property>
     <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Работа с разделами:&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; добавить, переименовать&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Добавить, переименовать:&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; раздел или документ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton::hover {

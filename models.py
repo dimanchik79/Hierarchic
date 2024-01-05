@@ -16,8 +16,12 @@ class Bibliophile(BaseModel):
 
 
 class Hierarchic(BaseModel):
-    bibl_name = CharField(max_length=1024, null=True)
-    items = TextField(null=True)
+    path = TextField(null=True)                             # полный путь
+    bibl_name = CharField(max_length=1024, null=True)       # название библитотеки
+    parent = CharField(max_length=1024, null=True)          # родитель
+    level = IntegerField(null=True)                         # уровень вложенности
+    mark = IntegerField(null=True)                          # признак документ или каталог
+    name_docum = CharField(max_length=1024, null=True)      # название название документа
 
 
 class Data(BaseModel):
@@ -28,4 +32,7 @@ class Data(BaseModel):
 
 
 class Current(BaseModel):
-    bibl_name = CharField(max_length=1024, null=True)
+    bibl_name = CharField(max_length=1024, null=True)   # название библитотеки
+    level = IntegerField(null=True)                     # уровень
+    parent = CharField(max_length=1024, null=True)      # родитель
+    path = TextField(null=True)                         # полный путь

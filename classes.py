@@ -1,37 +1,41 @@
 from PyQt5 import uic, QtGui, QtWidgets
-from PyQt5.QtGui import QStandardItemModel
-from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox, QTreeWidget
-from models import Hierarchic, Data, Bibliophile, Current
+from PyQt5.QtCore import QSize
+from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox
 
-import json
+from models import Hierarchic, Bibliophile, Current
 
 
 class MainClass(QMainWindow):
     def __init__(self, parent=None) -> None:
         super(MainClass, self).__init__(parent)
-        self.hierarchic = QtWidgets.QTreeView()
+        self.catalogs = QtWidgets.QListWidget()
         self.biblioteka = ""
-        self.base = {}
-
-        (self.id, self.items, self.root) = [[], [], []]
+        self.path = ""
+        self.parent_item = []
+        self.id_path = ""
+        self.level = 0
 
         uic.loadUi("UI/main.ui", self)
         self.setFixedSize(1222, 879)
         self.b_open.clicked.connect(self.open_bibliophile)
-        self.b_add.clicked.connect(self.change_treeview)
-        self.open_current_bibl()
+        self.b_add.clicked.connect(self.change_catalog)
+        self.first_open_bibliothec()
 
     def save_current_bibl(self):
+        """Метод сохраняет выбранную библиотеку для последующего открытия"""
         Current.delete().execute()
-        Current.create(bibl_name=self.biblioteka)
+        Current.create(bibl_name=self.biblioteka, parent="", level=0, path="")
 
-    def open_current_bibl(self):
+    def first_open_bibliothec(self):
         current = [row for row in Current.select().where(Current.id == 1)]
         if not current:
             return
         self.biblioteka = current[0].bibl_name
+        self.parent_item.append("" if current[0].parent == "" else current[0].parent)
+        self.level = current[0].level
+        self.path = current[0].path
         self.bib_name.setText(f"{self.biblioteka}")
-        self.opening_bibliothec()
+        self.open_level_documents()
 
     def open_bibliophile(self):
         dialog = OpenBibliothec()
@@ -43,55 +47,61 @@ class MainClass(QMainWindow):
             self.biblioteka = dialog.bibliolist.currentItem().text()
             self.save_current_bibl()
             self.bib_name.setText(f"{self.biblioteka}")
-            self.opening_bibliothec()
+            self.open_level_documents()
 
-    def opening_bibliothec(self):
-        self.hierarchic.setModel(None)
-        rows = [row for row in Hierarchic.select().where(Hierarchic.bibl_name == self.biblioteka)]
+    def open_level_documents(self):
+        rows = [row for row in Hierarchic.select().where(Hierarchic.bibl_name == self.biblioteka,
+                                                         Hierarchic.level == self.level,
+                                                         Hierarchic.parent == self.parent_item[self.level])]
         if not rows:
             return
-        self.base = json.loads(rows[0].items)
-        model = QStandardItemModel()
-        self.hierarchic.setModel(model)
-        self.create_tree_from_bibl(self.base, model.invisibleRootItem())
-        self.hierarchic.expandAll()
-        self.hierarchic.selectionModel().selectionChanged.connect(self.show_path)
+        self.catalogs.clear()
+        for row in rows:
+            if row.mark == 0:
+                item = QtWidgets.QListWidgetItem(QtGui.QIcon('/IMG/folder.ico'), row.name_docum)
+                self.catalogs.setIconSize(QSize(18, 18))
+                self.catalogs.addItem(item)
+        self.catalogs.setCurrentRow(len(rows) - 1)
+        self.catalogs.setFocus()
 
-    def show_path(self):
-        for selector in self.hierarchic.selectedIndexes():
-            value = selector.data()
-            while selector.parent().isValid():
-                selector = selector.parent()
-                value = selector.data() + "/" + value
-            self.path.setText(f"{value}")
-
-    def change_treeview(self):
+    def change_catalog(self):
         if self.bib_name.text() == "":
             dialog = OpenError(error_msg="Откройте имеющуюся библиотеку\nили создайте новую")
             dialog.show()
             dialog.exec_()
             return
-        dialog = OpenInstrumentary(mark="tree",
-                                   current_item="" if not self.base else "bzbz")
+        dialog = OpenInstrumentary(mark="tree", current_item="")
         dialog.cb.clear()
-        if not self.base:
-            dialog.cb.addItems(["Добавить раздел"])
-        else:
-            dialog.cb.addItems(["Добавить раздел", "Добавить подраздел", "Переименовать текущий элемент"])
+        dialog.cb.addItems(["Добавить каталог", "Добавить документ"])
+        if self.catalogs.currentItem() is not None:
+            dialog.cb.addItem("Переименовать текущий элемент")
+
         while True:
             dialog.name.setFocus()
             dialog.show()
             dialog.exec_()
             if dialog.result() == 0:
-                self.hierarchic.setFocus()
+                self.catalogs.setFocus()
                 return
 
-    def create_tree_from_bibl(self, children, parent):
-        for child in children:
-            child_item = QtGui.QStandardItem(child)
-            parent.appendRow(child_item)
-            if isinstance(children, dict):
-                self.create_tree_from_bibl(children[child], child_item)
+            if dialog.cb.currentText() == "Добавить каталог":
+                # TODO добавить каталог
+                Hierarchic.create(bibl_name=self.biblioteka,
+                                  mark=0,
+                                  name_docum=dialog.name.text(),
+                                  parent="" if self.level == 0 else self.parent_item[self.level - 1],
+                                  level=self.level,
+                                  path="" if self.level == 0 else "добавть опеределение пути")
+                self.open_level_documents()
+                break
+
+            if dialog.cb.currentText() == "Добавить документ":
+                # TODO добавить документ
+                break
+
+            if dialog.cb.currentText() == "Переименовать текущий элемент":
+                # TODO добавить документ
+                break
 
 
 class OpenBibliothec(QDialog):
@@ -118,10 +128,9 @@ class OpenBibliothec(QDialog):
         dialog = OpenInstrumentary(mark="biblio",
                                    current_item="" if not self.biblio else self.bibliolist.currentItem().text())
         dialog.cb.clear()
-        if not self.biblio:
-            dialog.cb.addItems(["Добавить библиотеку"])
-        else:
-            dialog.cb.addItems(["Добавить библиотеку", "Переименовать библиотеку"])
+        dialog.cb.addItems(["Добавить библиотеку"])
+        if self.biblio:
+            dialog.cb.addItem("Переименовать библиотеку")
 
         while True:
             dialog.name.setFocus()
@@ -220,6 +229,5 @@ class OpenError(QDialog):
     def __init__(self, error_msg) -> None:
         super().__init__()
         uic.loadUi("UI/error.ui", self)
-        print("bzbz")
         self.setFixedSize(400, 150)
         self.msg.setText(error_msg)

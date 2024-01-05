@@ -58,7 +58,7 @@ class MainClass(QMainWindow):
         self.catalogs.clear()
         for row in rows:
             if row.mark == 0:
-                item = QtWidgets.QListWidgetItem(QtGui.QIcon('/IMG/folder.ico'), row.name_docum)
+                item = QtWidgets.QListWidgetItem(QtGui.QIcon('IMG/folder.ico'), row.name_docum)
                 self.catalogs.setIconSize(QSize(18, 18))
                 self.catalogs.addItem(item)
         self.catalogs.setCurrentRow(len(rows) - 1)

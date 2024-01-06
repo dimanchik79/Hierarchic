@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1222</width>
+    <width>1343</width>
     <height>877</height>
    </rect>
   </property>
@@ -26,7 +26,7 @@
      <rect>
       <x>9</x>
       <y>26</y>
-      <width>403</width>
+      <width>521</width>
       <height>41</height>
      </rect>
     </property>
@@ -54,8 +54,8 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLabel" name="path">
     <property name="geometry">
      <rect>
-      <x>418</x>
-      <y>26</y>
+      <x>540</x>
+      <y>27</y>
       <width>793</width>
       <height>41</height>
      </rect>
@@ -84,8 +84,8 @@ color: rgb(255, 255, 255);</string>
    <widget class="QTableWidget" name="table">
     <property name="geometry">
      <rect>
-      <x>419</x>
-      <y>67</y>
+      <x>541</x>
+      <y>68</y>
       <width>791</width>
       <height>751</height>
      </rect>
@@ -260,7 +260,7 @@ color: rgb(255, 0, 0)
      <rect>
       <x>9</x>
       <y>6</y>
-      <width>403</width>
+      <width>521</width>
       <height>21</height>
      </rect>
     </property>
@@ -289,8 +289,8 @@ color: rgb(0, 0, 0)</string>
    <widget class="QLabel" name="path_2">
     <property name="geometry">
      <rect>
-      <x>418</x>
-      <y>6</y>
+      <x>540</x>
+      <y>7</y>
       <width>793</width>
       <height>21</height>
      </rect>
@@ -322,7 +322,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>10</x>
       <y>67</y>
-      <width>401</width>
+      <width>519</width>
       <height>751</height>
      </rect>
     </property>

@@ -1,5 +1,5 @@
 from PyQt5 import uic, QtGui, QtWidgets
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox
 
 from models import Hierarchic, Bibliophile, Current
@@ -11,17 +11,33 @@ class MainClass(QMainWindow):
         self.catalogs = QtWidgets.QListWidget()
         self.biblioteka = ""
         self.path = ""
-        self.parent_item = []
+        self.parent_items = {}
+        self.parent_name = ""
         self.id_path = ""
         self.level = 0
 
         uic.loadUi("UI/main.ui", self)
-        self.setFixedSize(1222, 879)
+        self.setFixedSize(1343, 879)
         self.b_open.clicked.connect(self.open_bibliophile)
         self.b_add.clicked.connect(self.change_catalog)
         self.first_open_bibliothec()
 
-    def save_current_bibl(self):
+    def keyPressEvent(self, event) -> None:
+        """Метод реализует обработку нажатия клавиши Enter"""
+        if event.key() in (Qt.Key_Enter, Qt.Key_Return):
+            if self.catalogs.currentItem().text() == "...":
+                self.level -= 1
+                if self.level == 0:
+                    self.parent_name = ""
+                else:
+                    self.parent_name = self.parent_items[self.catalogs.currentRow() + 1][2]
+            else:
+                self.level += 1
+                self.parent_name = self.parent_items[self.catalogs.currentRow() + 1][0]
+            print(self.parent_name, self.level)
+            self.open_level_documents()
+
+    def save_current_bibl(self) -> None:
         """Метод сохраняет выбранную библиотеку для последующего открытия"""
         Current.delete().execute()
         Current.create(bibl_name=self.biblioteka, parent="", level=0, path="")
@@ -31,9 +47,9 @@ class MainClass(QMainWindow):
         if not current:
             return
         self.biblioteka = current[0].bibl_name
-        self.parent_item.append("" if current[0].parent == "" else current[0].parent)
         self.level = current[0].level
         self.path = current[0].path
+        self.parent_name = current[0].parent
         self.bib_name.setText(f"{self.biblioteka}")
         self.open_level_documents()
 
@@ -52,17 +68,23 @@ class MainClass(QMainWindow):
     def open_level_documents(self):
         rows = [row for row in Hierarchic.select().where(Hierarchic.bibl_name == self.biblioteka,
                                                          Hierarchic.level == self.level,
-                                                         Hierarchic.parent == self.parent_item[self.level])]
-        if not rows:
-            return
+                                                         Hierarchic.parent == self.parent_name)]
+
         self.catalogs.clear()
-        filename = ['folder.ico', 'table.ico']
-        for row in rows:
-            item = QtWidgets.QListWidgetItem(QtGui.QIcon(f'IMG/{filename[row.mark]}'), row.name_docum)
-            self.catalogs.setIconSize(QSize(18, 18))
+        self.parent_items.clear()
+        filename = ['folder.ico', 'table.ico', 'levelup.ico']
+        if self.level != 0:
+            item = QtWidgets.QListWidgetItem(QtGui.QIcon(f'IMG/{filename[2]}'), "...")
             self.catalogs.addItem(item)
-        self.catalogs.setCurrentRow(len(rows) - 1)
+        if rows:
+            for row in rows:
+                item = QtWidgets.QListWidgetItem(QtGui.QIcon(f'IMG/{filename[row.mark]}'), row.name_docum)
+                self.parent_items[row.id] = (row.name_docum, row.mark, row.parent)
+                self.catalogs.setIconSize(QSize(18, 18))
+                self.catalogs.addItem(item)
+        self.catalogs.setCurrentRow(0)
         self.catalogs.setFocus()
+        print(self.parent_items)
 
     def change_catalog(self):
         if self.bib_name.text() == "":

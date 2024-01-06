@@ -28,18 +28,17 @@ class MainClass(QMainWindow):
             self.keypress_and_dblclick_event()
 
     def keypress_and_dblclick_event(self):
+        direct = 1
         self.path_items[self.level] = self.catalogs.currentRow()
         if self.catalogs.currentItem().text() == "...":
             direct = -1
             self.parent_name.pop(self.level)
             self.path_items.pop(self.level)
-        else:
-            direct = 1
         self.level += direct
         if self.level == len(self.path_items):
             self.parent_name.append(self.catalogs.currentItem().text())
             self.path_items.append(0)
-        print(self.parent_name, self.level)
+        # TODO доделать self.create_path()
         self.open_level_documents()
 
     def save_current_bibl(self) -> None:
@@ -109,7 +108,7 @@ class MainClass(QMainWindow):
                 return
 
             if dialog.cb.currentText() == "Переименовать текущий элемент":
-                # TODO добавить документ
+                # TODO добавить Переименовать текущий элемент
                 break
             else:
                 Hierarchic.create(bibl_name=self.biblioteka,

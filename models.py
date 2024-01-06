@@ -16,7 +16,6 @@ class Bibliophile(BaseModel):
 
 
 class Hierarchic(BaseModel):
-    path = TextField(null=True)                             # полный путь
     bibl_name = CharField(max_length=1024, null=True)       # название библитотеки
     parent = CharField(max_length=1024, null=True)          # родитель
     level = IntegerField(null=True)                         # уровень вложенности
@@ -25,8 +24,7 @@ class Hierarchic(BaseModel):
 
 
 class Data(BaseModel):
-    bibl_name = CharField(max_length=1024, null=True)
-    item_name = CharField(max_length=1024, null=True)
+    id_docum = IntegerField(null=True)
     field_name = CharField(max_length=1024, null=True)
     field_data = CharField(max_length=1024, null=True)
 
@@ -34,5 +32,3 @@ class Data(BaseModel):
 class Current(BaseModel):
     bibl_name = CharField(max_length=1024, null=True)   # название библитотеки
     level = IntegerField(null=True)                     # уровень
-    parent = CharField(max_length=1024, null=True)      # родитель
-    path = TextField(null=True)                         # полный путь

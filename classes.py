@@ -10,7 +10,7 @@ class MainClass(QMainWindow):
         super(MainClass, self).__init__(parent)
         self.catalogs = QtWidgets.QListWidget()
         self.biblioteka = ""
-        self.path = ""
+        self.path_items = [0]
         self.parent_items = {}
         self.parent_name = ""
         self.id_path = ""
@@ -25,31 +25,40 @@ class MainClass(QMainWindow):
     def keyPressEvent(self, event) -> None:
         """Метод реализует обработку нажатия клавиши Enter"""
         if event.key() in (Qt.Key_Enter, Qt.Key_Return):
-            if self.catalogs.currentItem().text() == "...":
-                self.level -= 1
-                if self.level == 0:
-                    self.parent_name = ""
-                else:
-                    self.parent_name = self.parent_items[self.catalogs.currentRow() + 1][2]
+            self.keypress_and_dblclick_event()
+
+    def keypress_and_dblclick_event(self):
+        self.path_items[self.level] = self.catalogs.currentRow()
+        if self.level == 0:
+            shift = 0
+        else:
+            shift = 1
+        if self.catalogs.currentItem().text() == "...":
+            self.level -= 1
+            if self.level == 0:
+                self.parent_name = ""
             else:
-                self.level += 1
-                self.parent_name = self.parent_items[self.catalogs.currentRow() + 1][0]
-            print(self.parent_name, self.level)
-            self.open_level_documents()
+                self.parent_name = self.parent_items[self.catalogs.currentRow()][1]
+        else:
+            self.path_items[self.level] = self.catalogs.currentRow()
+            self.level += 1
+            self.parent_name = self.parent_items[self.catalogs.currentRow() - shift][0]
+            if self.level == len(self.path_items):
+                self.path_items.append(0)
+
+        print(self.parent_name, self.level, self.path_items)
+        self.open_level_documents()
 
     def save_current_bibl(self) -> None:
         """Метод сохраняет выбранную библиотеку для последующего открытия"""
         Current.delete().execute()
-        Current.create(bibl_name=self.biblioteka, parent="", level=0, path="")
+        Current.create(bibl_name=self.biblioteka)
 
     def first_open_bibliothec(self):
         current = [row for row in Current.select().where(Current.id == 1)]
         if not current:
             return
         self.biblioteka = current[0].bibl_name
-        self.level = current[0].level
-        self.path = current[0].path
-        self.parent_name = current[0].parent
         self.bib_name.setText(f"{self.biblioteka}")
         self.open_level_documents()
 
@@ -69,7 +78,6 @@ class MainClass(QMainWindow):
         rows = [row for row in Hierarchic.select().where(Hierarchic.bibl_name == self.biblioteka,
                                                          Hierarchic.level == self.level,
                                                          Hierarchic.parent == self.parent_name)]
-
         self.catalogs.clear()
         self.parent_items.clear()
         filename = ['folder.ico', 'table.ico', 'levelup.ico']
@@ -77,14 +85,15 @@ class MainClass(QMainWindow):
             item = QtWidgets.QListWidgetItem(QtGui.QIcon(f'IMG/{filename[2]}'), "...")
             self.catalogs.addItem(item)
         if rows:
+            count = 0
             for row in rows:
                 item = QtWidgets.QListWidgetItem(QtGui.QIcon(f'IMG/{filename[row.mark]}'), row.name_docum)
-                self.parent_items[row.id] = (row.name_docum, row.mark, row.parent)
-                self.catalogs.setIconSize(QSize(18, 18))
+                self.parent_items[count] = (row.name_docum, row.parent, row.mark, row.id)
                 self.catalogs.addItem(item)
-        self.catalogs.setCurrentRow(0)
+                count += 1
+        self.catalogs.setIconSize(QSize(24, 24))
+        self.catalogs.setCurrentRow(self.path_items[self.level])
         self.catalogs.setFocus()
-        print(self.parent_items)
 
     def change_catalog(self):
         if self.bib_name.text() == "":
@@ -106,23 +115,16 @@ class MainClass(QMainWindow):
                 self.catalogs.setFocus()
                 return
 
-            if dialog.cb.currentText() == "Добавить каталог":
-                # TODO добавить каталог
-                Hierarchic.create(bibl_name=self.biblioteka,
-                                  mark=0,
-                                  name_docum=dialog.name.text(),
-                                  parent="" if self.level == 0 else self.parent_item[self.level - 1],
-                                  level=self.level,
-                                  path="" if self.level == 0 else "добавть опеределение пути")
-                self.open_level_documents()
-                break
-
-            if dialog.cb.currentText() == "Добавить документ":
-                # TODO добавить документ
-                break
-
             if dialog.cb.currentText() == "Переименовать текущий элемент":
                 # TODO добавить документ
+                break
+            else:
+                Hierarchic.create(bibl_name=self.biblioteka,
+                                  mark=0 if dialog.cb.currentText() == "Добавить каталог" else 1,
+                                  name_docum=dialog.name.text(),
+                                  parent="" if self.level == 0 else self.parent_name,
+                                  level=self.level)
+                self.open_level_documents()
                 break
 
 

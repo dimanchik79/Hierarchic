@@ -28,11 +28,11 @@ class MainClass(QMainWindow):
             self.keypress_and_dblclick_event()
 
     def keypress_and_dblclick_event(self):
-        print(self.parent_name, self.level)
         self.path_items[self.level] = self.catalogs.currentRow()
         if self.catalogs.currentItem().text() == "...":
             direct = -1
             self.parent_name.pop(self.level)
+            self.path_items.pop(self.level)
         else:
             direct = 1
         self.level += direct
@@ -41,7 +41,6 @@ class MainClass(QMainWindow):
             self.path_items.append(0)
         print(self.parent_name, self.level)
         self.open_level_documents()
-
 
     def save_current_bibl(self) -> None:
         """Метод сохраняет выбранную библиотеку для последующего открытия"""

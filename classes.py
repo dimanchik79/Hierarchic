@@ -11,13 +11,13 @@ class MainClass(QMainWindow):
         self.catalogs = QtWidgets.QListWidget()
         self.biblioteka = ""
         self.path_items = [0]
-        self.parent_items = {}
         self.parent_name = [""]
+        self.parent_items = {}
         self.id_path = ""
         self.level = 0
 
         uic.loadUi("UI/main.ui", self)
-        self.setFixedSize(1343, 879)
+        self.setFixedSize(1343, 893)
         self.b_open.clicked.connect(self.open_bibliophile)
         self.b_add.clicked.connect(self.change_catalog)
         self.first_open_bibliothec()
@@ -83,7 +83,7 @@ class MainClass(QMainWindow):
                 self.parent_items[count] = (row.name_docum, row.parent, row.mark, row.id)
                 self.catalogs.addItem(item)
                 count += 1
-        self.catalogs.setIconSize(QSize(16, 16))
+        self.catalogs.setIconSize(QSize(18, 18))
         self.catalogs.setCurrentRow(self.path_items[self.level])
         self.catalogs.setFocus()
 

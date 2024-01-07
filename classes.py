@@ -69,7 +69,9 @@ class MainClass(QMainWindow):
     def open_level_documents(self):
         rows = [row for row in Hierarchic.select().where(Hierarchic.bibl_name == self.biblioteka,
                                                          Hierarchic.level == self.level,
-                                                         Hierarchic.parent == self.parent_name[self.level])]
+                                                         Hierarchic.parent == self.parent_name[self.level]).order_by(
+                    Hierarchic.mark)]
+
         self.catalogs.clear()
         self.parent_items.clear()
         filename = ['folder.ico', 'table.ico', 'levelup.ico']
@@ -117,7 +119,17 @@ class MainClass(QMainWindow):
                                   parent=self.parent_name[self.level],
                                   level=self.level)
                 self.open_level_documents()
+                self.set_position(dialog.cb.currentText())
                 break
+
+    def set_position(self, mark):
+        print(mark, len(self.parent_items))
+        shift = 1 if self.level == 0 else 0
+        if mark == "Добавить каталог":
+            pass
+        elif mark == "Добавить документ":
+            self.catalogs.setCurrentRow(len(self.parent_items) - shift)
+        self.catalogs.setFocus()
 
 
 class OpenBibliothec(QDialog):

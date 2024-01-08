@@ -1,7 +1,6 @@
 from PyQt5 import uic, QtGui, QtWidgets
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox, QLabel
-
+from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox
 from models import Hierarchic, Bibliophile, Current
 
 

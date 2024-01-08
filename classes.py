@@ -1,6 +1,6 @@
 from PyQt5 import uic, QtGui, QtWidgets
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QDialog, QComboBox, QLabel
 
 from models import Hierarchic, Bibliophile, Current
 
@@ -9,9 +9,12 @@ class MainClass(QMainWindow):
     def __init__(self, parent=None) -> None:
         super(MainClass, self).__init__(parent)
         self.catalogs = QtWidgets.QListWidget()
+        self.path = QtWidgets.QLabel()
+
         self.biblioteka = ""
         self.path_items = [0]
         self.parent_name = [""]
+
         self.parent_items = {}
         self.id_path = ""
         self.level = 0
@@ -38,8 +41,12 @@ class MainClass(QMainWindow):
         if self.level == len(self.path_items):
             self.parent_name.append(self.catalogs.currentItem().text())
             self.path_items.append(0)
-        # TODO доделать self.create_path()
         self.open_level_documents()
+        self.create_path()
+
+    def create_path(self):
+        path = ">".join(self.parent_name)
+        self.path.setText(path[1:])
 
     def save_current_bibl(self) -> None:
         """Метод сохраняет выбранную библиотеку для последующего открытия"""
